@@ -54,7 +54,6 @@ st.line_chart(df, x="Month", y=option)
 
 st.divider()
 
-
 # making a new table that has years summed together
 
 # extracting just the night spent
@@ -71,11 +70,31 @@ df_nights_spent_by_year = (
       .rename(columns={"Month": "Year"})
 )
 
-
 # drawing a bar chart of year totals
 st.markdown('''### Yearly total of nights spent
-This graph displays the sum of the nights spent by year. The newest year is not complete yet.''')
+This graph displays the sum of the nights spent by year. The data shows a slight increase
+over the years, but there is a lot of variation. 2020 is has the smallest amout since that year travelling was
+very restricted. The newest year is still waiting for data of the whole year.''')
 st.bar_chart(df_nights_spent_by_year, x="Year", y="Nights spent", horizontal=True)
+
+
+st.divider()
+
+# Domestic vs Foreign: datatable and small line chart.
+
+# extracting the domestic and foreign night from the table
+df_domestic_and_foreign = df[["Month", "Domestic nights", "Foreign nights"]]
+
+st.markdown('''### Datatable of just the domestic and foreign nights
+These columns are the people who are staying overnight at an accommondation. From this line chart we can see that
+the trends follow each other quite well. There are a bit more of domestic stays. In the recent years this gap has
+widened and it seems that domestic stays have increased while foreign stays have stayed quite the same.''')
+# drawing the table and graph
+st.dataframe(df_domestic_and_foreign)
+
+st.markdown('''### Line chart of domestic and foreign nights
+This describes the domestic and foreign stays as a linechart.''')
+st.line_chart(df_domestic_and_foreign, x="Month", y=["Domestic nights", "Foreign nights"], color=["#FF8C00", "#0041C2"])
 
 
 
