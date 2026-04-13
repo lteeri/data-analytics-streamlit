@@ -26,9 +26,9 @@ df = df_raw_espoo.rename(columns={
 })
 
 st.markdown(''' # Overnight stays in Espoo
-On this Streamlit page I will display data about monthly hotel capacity and nights spent in Espoo, 
-from year 1995 to the current time.
-
+On this Streamlit page I will display data about accommondation capacity and nights spent in Espoo, 
+from year 1995 to the current time. The data is divided into months. At the end of the page
+I am comparing the Espoo data to Rovaniemi data. This comparison data can be exported.
 ''')
 
 st.divider()
@@ -93,14 +93,14 @@ st.divider()
 df_domestic_and_foreign = df[["Month", "Domestic nights", "Foreign nights"]]
 
 st.markdown('''### Datatable of just the domestic and foreign nights
-These columns are the people who are staying overnight at an accommondation. From this line chart we can see that
-the trends follow each other quite well. There are a bit more of domestic stays. In the recent years this gap has
-widened and it seems that domestic stays have increased while foreign stays have stayed quite the same.''')
+These columns are the people who are staying overnight at an accommondation. Below is a line chart of this data.''')
 # drawing the table and graph
 st.dataframe(df_domestic_and_foreign)
 
 st.markdown('''### Line chart of domestic and foreign nights
-This describes the domestic and foreign stays as a linechart.''')
+This describes the domestic and foreign stays as a linechart. From this line chart we can see that
+the trends follow each other quite well. There are a bit more of domestic stays. In the recent years this gap has
+widened and it seems that domestic stays have increased while foreign stays have stayed quite the same.''')
 st.line_chart(df_domestic_and_foreign, x="Month", y=["Domestic nights", "Foreign nights"], color=["#FF8C00", "#0041C2"])
 
 
@@ -121,7 +121,7 @@ st.markdown('''### Comparison between Espoo and Rovaniemi
 Here you can choose which data you would like to compare as a line chart. This data shows clearly how much
 more popular Rovaniemi is at high season times.
             
-Rovaniemi has around 70 000 residents whereas Espoo has over 300 000 (2025). Therefore the difference is quite amazing.''')
+Rovaniemi has around 70 000 residents whereas Espoo has well over 300 000 (2025). Therefore the difference is quite amazing.''')
 comparison_column = st.selectbox(
     "Chosen data to compare",
     ("Domestic nights", "Foreign nights", "Average room price", "Average price per night", "Nights spent"),
