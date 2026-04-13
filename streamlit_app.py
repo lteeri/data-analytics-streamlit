@@ -9,7 +9,8 @@ def load_espoo_data():
 
 @st.cache_data
 def load_rovaniemi_data():
-    return pd.read_csv("https://pxdata.stat.fi/PxWeb/sq/11627403-779b-42c0-91fa-0cfc3a81c048")
+    # for some reason this didn't have the character problem that the espoo data has
+    return pd.read_csv("https://pxdata.stat.fi/PxWeb/sq/40290d49-8cb4-43ba-acc8-750d0fa8bac0")
 
 # loading the datas
 df_raw_espoo = load_espoo_data()
@@ -34,7 +35,7 @@ st.divider()
 # displaying the raw data by using the streamlit's dataframe
 st.markdown('''### Raw data of Espoo
 This is the raw data about the overnight stays in Espoo that I will be working with.''')
-st.dataframe(df_raw)
+st.dataframe(df_raw_espoo)
 
 # column cheatsheet
 # "Month"
@@ -101,5 +102,22 @@ st.markdown('''### Line chart of domestic and foreign nights
 This describes the domestic and foreign stays as a linechart.''')
 st.line_chart(df_domestic_and_foreign, x="Month", y=["Domestic nights", "Foreign nights"], color=["#FF8C00", "#0041C2"])
 
+
+# comparing espoo and rovaniemi
+st.divider()
+
+st.markdown('''# Comparing Espoo and Rovaniemi
+I thought it would be interesting to see the difference betweeh a northern and southern cities.
+Also, Espoo is not really a tourism city and Rovaniemi is. How do they compare? Let's see.''')
+
+# first I will create a table that has both of rovaniemi's and espoo's data
+# left join makes the values follow the espoo table and the rovaniemi values might get null
+# this way I make sure that at least all the espoo values are the original ones
+df_combined = df_raw_espoo.merge(df_raw_rovaniemi, how="left", on="Month")
+
+# next I will create a dropdown menu that the user can choose what they compare
+
+
+st.dataframe(df_combined)
 
 
