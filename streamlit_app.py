@@ -3,14 +3,19 @@ import pandas as pd
 
 # importing the up to date data
 @st.cache_data
-def load_data():
+def load_espoo_data():
     # the data had this weird ï»¿"Month" in front of the first column, which gets fixed when using encoding="utf-8-sig"
     return pd.read_csv("https://pxdata.stat.fi/PxWeb/sq/11627403-779b-42c0-91fa-0cfc3a81c048", encoding="utf-8-sig")
 
-df_raw = load_data()
+@st.cache_data
+def load_rovaniemi_data():
+    return pd.read_csv("https://pxdata.stat.fi/PxWeb/sq/11627403-779b-42c0-91fa-0cfc3a81c048")
 
-df = df_raw.rename(columns={
-    
+# loading the datas
+df_raw_espoo = load_espoo_data()
+df_raw_rovaniemi = load_rovaniemi_data()
+
+df = df_raw_espoo.rename(columns={
     "Espoo Domestic nights": "Domestic nights",
     "Espoo Foreign nights": "Foreign nights",
     "Espoo Average room price": "Average room price",
