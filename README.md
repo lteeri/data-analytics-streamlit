@@ -8,6 +8,9 @@ https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__matk/statfin_matk_pxt_11l
 
 (Monthly hotel capacity and nights spent by municipality by Municipality, Information and Month)
 
+This is the link to the chosen Espoo data:
+https://pxdata.stat.fi/PxWeb/sq/11627403-779b-42c0-91fa-0cfc3a81c048
+
 
 Create a new public GitHub repo. Deploy your Streamlit app on Streamlit Community Cloud. Deployment is part of grading.
 
