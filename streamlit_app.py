@@ -116,7 +116,17 @@ Also, Espoo is not really a tourism city and Rovaniemi is. How do they compare? 
 df_combined = df_raw_espoo.merge(df_raw_rovaniemi, how="left", on="Month")
 
 # next I will create a dropdown menu that the user can choose what they compare
-
+st.markdown('''### Comparison between Espoo and Rovaniemi
+Here you can choose which data you would like to compare as a line chart. This data shows clearly how much
+more popular Rovaniemi is at high season times.
+            
+Rovaniemi has around 70 000 residents whereas Espoo has over 300 000 (2025). Therefore the difference is quite amazing.''')
+option_combined = st.selectbox(
+    "Chosen data to compare",
+    ("Domestic nights", "Foreign nights", "Average room price", "Average price per night", "Nights spent"),
+)
+# drawing the line chart based on chosen option
+st.line_chart(df_combined, x="Month", y=["Espoo " + option_combined, "Rovaniemi " + option_combined])
 
 st.dataframe(df_combined)
 
