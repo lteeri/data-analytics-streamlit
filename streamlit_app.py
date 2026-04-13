@@ -9,13 +9,22 @@ def load_data():
 
 df_raw = load_data()
 
-df = df_raw
+df = df_raw.rename(columns={
+    
+    "Espoo Domestic nights": "Domestic nights",
+    "Espoo Foreign nights": "Foreign nights",
+    "Espoo Average room price": "Average room price",
+    "Espoo Average price per night": "Average price per night",
+    "Espoo Nights spent": "Nights spent",
+})
 
 st.markdown(''' # Overnight stays in Espoo
 On this Streamlit page I will display data about monthly hotel capacity and nights spent in Espoo, 
 from year 1995 to the current time.
 
 ''')
+
+st.divider()
 
 # displaying the raw data by using the streamlit's dataframe
 st.markdown('''### Raw data of Espoo
@@ -30,15 +39,43 @@ st.dataframe(df_raw)
 # "Espoo Average price per night"
 # "Espoo Nights spent"
 
+st.divider()
+
 # diaplaying the average room price by month
 st.markdown('''### Graph of selected data
 Here you can choose which data you would like to see as a line chart.''')
 option = st.selectbox(
-    "Chosen data",
-    ("Espoo Domestic nights", "Espoo Foreign nights", "Espoo Average room price", "Espoo Average price per night", "Espoo Nights spent"),
+    "Chosen data from Espoo",
+    ("Domestic nights", "Foreign nights", "Average room price", "Average price per night", "Nights spent"),
 )
 # drawing the line chart based on chosen option
 st.line_chart(df, x="Month", y=option)
+
+
+st.divider()
+
+
+# making a new table that has years summed together
+
+# extracting just the night spent
+df_nights_spent_by_year = df[["Month", "Nights spent"]]
+# now the row has values in a form of 1995M01
+
+# we must split with M. That created a list and we want the first value of that [0]
+df_nights_spent_by_year["Month"] = df_nights_spent_by_year["Month"].str.split("M").str[0]
+
+# generated with chatgpt
+df_nights_spent_by_year = (
+    df_nights_spent_by_year.groupby("Month", as_index=False)["Nights spent"]
+      .sum()
+      .rename(columns={"Month": "Year"})
+)
+
+
+# drawing a bar chart of year totals
+st.markdown('''### Yearly total of nights spent
+This graph displays the sum of the nights spent by year. The newest year is not complete yet.''')
+st.bar_chart(df_nights_spent_by_year, x="Year", y="Nights spent", horizontal=True)
 
 
 
