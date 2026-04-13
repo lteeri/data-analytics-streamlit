@@ -29,6 +29,16 @@ st.markdown(''' # Overnight stays in Espoo
 On this Streamlit page I will display data about accommondation capacity and nights spent in Espoo, 
 from year 1995 to the current time. The data is divided into months. At the end of the page
 I am comparing the Espoo data to Rovaniemi data. This comparison data can be exported.
+            
+I will briefly explain the columns of this data
+- Month: the month column consists of the year and the month number divided by M. For example 2018M4 means April of 2018.
+- Domestic nights: these people are the residents of Finland
+- Foreign nights: these people are not residents of Finland, i.e. they are travelling from another country to FInland
+- Average room price: this is the average price of a room itself
+- Average price per night: this is teh average price per person. For example, two people can stay in one room so they both pay half of what the room costs.
+- Nights spent: this is the total nights spent in the given month
+            
+More information about this data can be found here: https://stat.fi/en/statistics/documentation/matk
 ''')
 
 st.divider()
