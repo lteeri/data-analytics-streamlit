@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 # importing the up to date data
 @st.cache_data
@@ -121,13 +122,39 @@ Here you can choose which data you would like to compare as a line chart. This d
 more popular Rovaniemi is at high season times.
             
 Rovaniemi has around 70 000 residents whereas Espoo has over 300 000 (2025). Therefore the difference is quite amazing.''')
-option_combined = st.selectbox(
+comparison_column = st.selectbox(
     "Chosen data to compare",
     ("Domestic nights", "Foreign nights", "Average room price", "Average price per night", "Nights spent"),
 )
 # drawing the line chart based on chosen option
-st.line_chart(df_combined, x="Month", y=["Espoo " + option_combined, "Rovaniemi " + option_combined])
-
-st.dataframe(df_combined)
+st.line_chart(df_combined, x="Month", y=["Espoo " + comparison_column, "Rovaniemi " + comparison_column])
 
 
+# this base is copied form the streamlit documentation
+# https://docs.streamlit.io/develop/api-reference/widgets/st.download_button
+@st.cache_data
+def convert_for_download(comparison_column):
+
+    # turning the comparison data into a table. Here we will take into account 
+    # what the user has chosen from the drop down menu
+    df_export = df_combined[["Month", "Espoo " + comparison_column, "Rovaniemi " + comparison_column]]
+    
+    # then I will change the column name to have a _ instead of space
+    # this will be used in the export name
+    export_column_name = comparison_column.replace(" ", "_")
+
+    return df_export.to_csv().encode("utf-8"), export_column_name
+
+csv, export_column_name = convert_for_download(comparison_column)
+
+st.download_button(
+    label="Download Comparison as CSV",
+    data=csv,
+    file_name=f"espoo_rovaniemi_comparison_{export_column_name}.csv",
+    mime="text/csv",
+    icon=":material/download:",
+)
+
+st.markdown('''
+You can export this displayed data as a CSV. The file will have the Month column and the columns of the
+selected data. The file will be named by the comparison column name.''')
